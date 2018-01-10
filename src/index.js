@@ -16,7 +16,7 @@ import reducer from './reducers'
 
 import epic from './epics'
 
-import { Welcome } from './containers/Welcome'
+import { Welcome } from './components/Welcome'
 
 const loggerMiddleware = createLoggerMiddleware()
 const epicMiddleware = createEpicMiddleware(epic)
