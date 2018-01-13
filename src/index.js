@@ -3,43 +3,31 @@ import './styles.scss'
 import 'rxjs'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Route, Switch } from 'react-router-dom'
-import createBrowserHistory from 'history/createBrowserHistory'
+import { Route, Switch } from 'react-router'
 
-import { createStore, applyMiddleware } from 'redux'
-import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly'
 import { Provider } from 'react-redux'
-import { createLogger as createLoggerMiddleware } from 'redux-logger'
-import { createEpicMiddleware } from 'redux-observable'
 
-import reducer from './reducers'
-
-import epic from './epics'
+import { ConnectedRouter as Router } from 'react-router-redux'
 
 import { Welcome } from './components/Welcome'
+import ProductList from './containers/ProductList'
+import ProductCreate from './containers/ProductCreate'
+import ProductShow from './containers/ProductShow'
+import ProductEdit from './containers/ProductEdit'
 
-const loggerMiddleware = createLoggerMiddleware()
-const epicMiddleware = createEpicMiddleware(epic)
-
-const store = createStore(
-    reducer,
-    composeWithDevTools(
-        applyMiddleware(
-            loggerMiddleware,
-            epicMiddleware
-        )
-    )
-)
+import { store, history } from './objects'
 
 store.dispatch({type: 'PING'})
-
-const history = createBrowserHistory()
 
 ReactDOM.render((
   <Provider store={store}>
     <Router history={history}>
       <Switch>
-        <Route path="/" component={Welcome} />
+        <Route exact path="/" component={ Welcome } />
+        <Route exact path="/products" component={ ProductList } />
+        <Route exact path="/products/create" component={ ProductCreate } />
+        <Route exact path="/products/:product" component={ ProductShow } />
+        <Route exact path="/products/:product/edit" component={ ProductEdit } />
       </Switch>
     </Router>
   </Provider>
