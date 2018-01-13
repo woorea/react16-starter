@@ -10,10 +10,10 @@ import { Provider } from 'react-redux'
 import { ConnectedRouter as Router } from 'react-router-redux'
 
 import { Welcome } from './components/Welcome'
-import ProductList from './containers/ProductList'
-import ProductCreate from './containers/ProductCreate'
-import ProductShow from './containers/ProductShow'
-import ProductEdit from './containers/ProductEdit'
+import ProductList from './containers/products/ProductList'
+import ProductCreate from './containers/products/ProductCreate'
+import ProductShow from './containers/products/ProductShow'
+import ProductEdit from './containers/products/ProductEdit'
 
 import { store, history } from './objects'
 

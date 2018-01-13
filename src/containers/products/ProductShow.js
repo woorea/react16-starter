@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 
 import { Link } from 'react-router-dom'
 
-import * as actions from '../actions'
-import { Loading } from '../components/Loading'
-import { Button } from '../components/Button'
-import { Pagination } from '../components/Pagination';
+import * as actions from '../../actions'
+import { Loading } from '../../components/Loading'
+import { Button } from '../../components/Button'
+import { Pagination } from '../../components/Pagination';
 
 export class ProductShow extends React.Component {
 

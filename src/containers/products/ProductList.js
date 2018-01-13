@@ -1,18 +1,17 @@
 import React from 'react'
 
-import * as actions from '../actions'
+import * as actions from '../../actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
 
 import { Link } from 'react-router-dom'
 
-import { Loading } from '../components/Loading'
-import { Button } from '../components/Button'
-import { Pagination } from '../components/Pagination';
+import { Loading } from '../../components/Loading'
+import { Button } from '../../components/Button'
+import { Pagination } from '../../components/Pagination';
 import { push } from 'react-router-redux';
-import Modal from './Modal';
-import { productListSuccess } from '../actions';
+import Modal from '../Modal';
 
 const uiItemsSelector = state => state.ui.items
 const entitiesProductsSelector = state => state.entities.products

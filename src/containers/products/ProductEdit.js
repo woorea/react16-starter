@@ -1,16 +1,17 @@
 import React from 'react'
+
+import * as actions from '../../actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { Link } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 
-import * as actions from '../actions'
-import { Button } from '../components/Button'
-import { InputText } from '../components/InputText'
-import { TextArea } from '../components/TextArea';
+import { Button } from '../../components/Button'
+import { InputText } from '../../components/InputText'
+import { TextArea } from '../../components/TextArea';
   
-const ProductCreateForm = reduxForm({})(({onCancel: handleCancel, handleSubmit}) => {
+const ProductEditForm = reduxForm({})(({onCancel: handleCancel, handleSubmit}) => {
     return (
         <form onSubmit={handleSubmit}>
             <Field id="product-name" label="Name" name="name" component={InputText} />
@@ -20,19 +21,23 @@ const ProductCreateForm = reduxForm({})(({onCancel: handleCancel, handleSubmit})
             <Field id="product-end" label="Start End" name="start" component={InputText} />
             <Button type="submit" label="Cancel" onClick={handleCancel} />
             &nbsp;
-            <Button type="submit" icon="save" label="Save" />
+            <Button type="submit" icon="save" label="Update" />
         </form>
     )
 })
 
-export class ProductCreate extends React.Component {
+export class ProductEdit extends React.Component {
+
+    componentDidMount() {
+        this.props.actions.productShow('product.1')
+    }
 
     handleSubmit(values) {
-        this.props.actions.productSave(values)
+        this.props.actions.productUpdate(values)
     }
 
     handleCancel(values) {
-        this.props.actions.push('/products')
+        this.props.actions.push(`/products/${this.props.product.code}`)
     }
 
     render() {
@@ -43,11 +48,12 @@ export class ProductCreate extends React.Component {
                     <h1 style={{flex: '1 1 0'}}>
                         <i className="fa fa-tag"></i>
                         &nbsp;
-                        <span>Create Product</span>
+                        <span>Edit Product</span>
                     </h1>
                 </div>
-                <ProductCreateForm
-                    form="product-create-form"
+                <ProductEditForm
+                    form="product-edit-form"
+                    initialValues={this.props.product}
                     onSubmit={(values) => this.handleSubmit(values)} 
                     onCancel={() => this.handleCancel()}
                 />
@@ -61,7 +67,20 @@ export default connect(
     
     (state) => {
 
-        return {
+        if(state.ui) {
+        
+            return {
+                loading: state.ui.loading,
+                product: state.entities.products[state.ui.item]
+            }
+       
+        } else {
+
+            return {
+                loading: false,
+                products: {},
+                modal: null
+            }
 
         }
 
@@ -72,4 +91,4 @@ export default connect(
         }
     }
 
-)(ProductCreate)
+)(ProductEdit)
