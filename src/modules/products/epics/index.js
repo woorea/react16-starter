@@ -1,4 +1,4 @@
-import { push, uiModalClose } from 'root/actions'
+import { push, uiModalClose, batch } from 'root/actions'
 
 import * as constants from '../constants'
 import * as actions from '../actions'
@@ -22,12 +22,12 @@ export default [
             }
             const { content, ...pagination} = fake
             const { entities, result } = normalize(content, [productSchema])
-            return [
+            return Observable.of(batch([
                 mergeEntities({ entities }),
                 actions.productListSuccess({
                     result
                 })
-            ]
+            ]))
         })
         .catch((e) => Observable.of(actions.productListError(e))),
     action$ => action$.ofType(constants.PRODUCT_SAVE)
@@ -51,12 +51,13 @@ export default [
 
             const { entities, result } = fake
 
-            return [
+            return Observable.of(batch([
                 mergeEntities({ entities }),
                 actions.productShowSuccess({
                     result
                 })
-            ]
+            ]))
+            
         }),
     action$ => action$.ofType(constants.PRODUCT_UPDATE)
         .switchMap(({payload}) => ajax.put(`http://localhost:4000/api/products/${payload.code}`, payload))
