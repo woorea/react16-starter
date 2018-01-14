@@ -1,20 +1,21 @@
 import React from 'react'
 
-import * as actions from '../../actions'
+import { push, uiClear, uiModalOpen, uiModalClose } from 'root/actions'
+import { productList, productDelete } from '../actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
 
 import { Link } from 'react-router-dom'
 
-import { Loading } from '../../components/Loading'
-import { Button } from '../../components/Button'
-import { Pagination } from '../../components/Pagination';
-import { push } from 'react-router-redux';
-import Modal from '../Modal';
+import { Loading } from 'components/Loading'
+import { Button } from 'components/Button'
+import { Pagination } from 'components/Pagination'
 
-const uiItemsSelector = state => state.ui.items
-const entitiesProductsSelector = state => state.entities.products
+import Modal from 'containers/Modal'
+
+const uiItemsSelector = state => state.ui.products.list.items
+const entitiesProductsSelector = state => state.entities.products || {}
 const productsSelector = createSelector(
     uiItemsSelector,
     entitiesProductsSelector,
@@ -27,29 +28,21 @@ export class ProductList extends React.Component {
         this.props.actions.productList()
     }
 
-    handleCreateProduct() {
-        this.props.actions.push('/products/create')
+    componentWillUnmount() {
+        this.props.actions.uiClear()
     }
 
-    handleViewProduct(product) {
-        this.props.actions.push(`/products/${product.code}`)
-    }
-
-    handleDeleteProduct(product) {
-        this.props.actions.uiModalOpen(product)
-    }
-
-    handleModalEvent(event) {
-        switch(event.type) {
-            case 'UI/MODAL/CLOSE': {
-                this.props.actions.uiModalClose()
-                break
-            }
-            case 'UI/MODAL/SUBMIT': {
-                this.props.actions.productDelete()
-                break
-            }
+    render() {
+        
+        if(this.props.loading) {
+            return <Loading />
         }
+
+        if(this.props.products) {
+            return this.renderTable()
+        }
+
+        return null
     }
 
     renderTable() {
@@ -96,14 +89,29 @@ export class ProductList extends React.Component {
         )
     }
 
-    render() {
-        if(this.props.loading) {
-            return <Loading />
+    handleCreateProduct() {
+        this.props.actions.push('/products/create')
+    }
+
+    handleViewProduct(product) {
+        this.props.actions.push(`/products/${product.code}`)
+    }
+
+    handleDeleteProduct(product) {
+        this.props.actions.uiModalOpen(product)
+    }
+
+    handleModalEvent(event) {
+        switch(event.type) {
+            case 'UI/MODAL/CLOSE': {
+                this.props.actions.uiModalClose()
+                break
+            }
+            case 'UI/MODAL/SUBMIT': {
+                this.props.actions.productDelete()
+                break
+            }
         }
-        if(this.props.products) {
-            return this.renderTable()
-        }
-        return null
     }
 
 }
@@ -111,29 +119,21 @@ export class ProductList extends React.Component {
 export default connect(
     
     (state) => {
-
-        if(state.ui) {
         
-            return {
-                loading: state.ui.loading,
-                products: productsSelector(state),
-                modal: state.ui.modal
-            }
-       
-        } else {
-
-            return {
-                loading: false,
-                products: [],
-                modal: null
-            }
-
+        return {
+            ...state.ui.products.list,
+            products: productsSelector(state),
+            modal: state.modal
         }
 
     },
     (dispatch) => {
+
         return {
-            actions: bindActionCreators(actions, dispatch)
+            actions: bindActionCreators({
+                push, uiClear, uiModalOpen, uiModalClose,
+                productList, productDelete
+            }, dispatch)
         }
     }
 

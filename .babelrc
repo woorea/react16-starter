@@ -1,3 +1,10 @@
 {
-    "presets": ["react-app"]
+    "presets": ["react-app"],
+    "plugins": [
+        ["module-alias", [
+            { "src": "./src", "expose": "root" },
+            { "src": "./src/components", "expose": "components" },
+            { "src": "./src/containers", "expose": "containers" }
+        ]]
+    ]
 }

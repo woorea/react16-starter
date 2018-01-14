@@ -1,12 +1,11 @@
-import { combineEpics } from 'redux-observable'
+import { push, uiModalClose } from 'root/actions'
 
 import * as actions from '../actions'
-import { push, productList, productListSuccess, productDeleteSuccess, productSaveSuccess, productShowSuccess, productUpdateSuccess } from '../actions';
 
 import { normalize } from 'normalizr'
-import { productSchema } from '../schema';
+import { productSchema } from 'root/schema'
 
-export default combineEpics(
+export default [
     action$ => action$.ofType(actions.PRODUCT_LIST)
         .delay(1000)
         .map(({payload}) => {
@@ -21,27 +20,32 @@ export default combineEpics(
             }
             const { content, ...pagination} = fake
             const { entities, result } = normalize(content, [productSchema])
-            return productListSuccess({
+            return actions.productListSuccess({
                 entities,
                 result
             })
         }),
     action$ => action$.ofType(actions.PRODUCT_SAVE)
         .delay(1000)
-        .mapTo(productSaveSuccess()),
+        .mapTo(actions.productSaveSuccess()),
     action$ => action$.ofType(actions.PRODUCT_SAVE_SUCCESS)
         .mapTo(push('/products')),
     action$ => action$.ofType(actions.PRODUCT_SHOW)
         .delay(1000)
-        .mapTo(productShowSuccess()),
+        .mapTo(actions.productShowSuccess()),
     action$ => action$.ofType(actions.PRODUCT_UPDATE)
         .delay(1000)
-        .mapTo(productUpdateSuccess()),
+        .mapTo(actions.productUpdateSuccess()),
     action$ => action$.ofType(actions.PRODUCT_UPDATE_SUCCESS)
         .mapTo(push('/products')),
     action$ => action$.ofType(actions.PRODUCT_DELETE)
         .delay(1000)
-        .mapTo(productDeleteSuccess()),
+        .mapTo(actions.productDeleteSuccess()),
     action$ => action$.ofType(actions.PRODUCT_DELETE_SUCCESS)
-        .mapTo(productList())
-)
+        .mergeMap(() => {
+            return [
+                uiModalClose(),
+                actions.productList()
+            ]
+        })
+    ]

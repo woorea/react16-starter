@@ -2,6 +2,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
+    context: __dirname,
     devtool: 'cheap-module-eval-source-map',
     entry: {
         index: [
@@ -11,8 +12,7 @@ module.exports = {
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
-      filename: 'bundle.js',
-      publicPath: '/'
+      filename: 'bundle.js'
     },
     resolve: {
       extensions: ['.js']
@@ -39,14 +39,14 @@ module.exports = {
         template: 'index.html',
         hash: false,
         filename: 'index.html',
-        inject: 'body',
         minify: {
           collapseWhitespace: false
         }
       })
     ],
     devServer: {
-      publicPath: '/',
-      historyApiFallback: true
+      historyApiFallback: {
+        disableDotRule: true
+      }
     }
   }
