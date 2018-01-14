@@ -4,8 +4,6 @@ import { uiModalOpen, uiModalClose } from './modal'
 
 import { mergeEntities } from './entities'
 
-import { batch } from './batch'
-
 import * as constants from '../constants'
 
 const uiClear = () => {
@@ -15,7 +13,6 @@ const uiClear = () => {
 }
 
 export {
-    batch,
     push,
     uiClear,
     uiModalOpen,

@@ -1,5 +1,3 @@
-export const BATCH_ACTIONS = "BATCH_ACTIONS"
-
 export const UI_CLEAR = "UI/CLEAR"
 
 export const UI_MODAL_OPEN = "UI/MODAL/OPEN"

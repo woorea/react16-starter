@@ -21,21 +21,6 @@ import * as productReducers from 'root/modules/products/reducers'
 
 import productsEpics from 'root/modules/products/epics'
 
-import * as  constants from 'root/constants'
-
-const withBatchActions = (reducer) => {
-    return (state, action) => {
-        switch(action.type) {
-            case constants.BATCH_ACTIONS: {
-                return action.payload.reduce(reducer, state)
-            }
-            default: {
-                return reducer(state, action)
-            }
-        } 
-    }
-}
-
 export const history = createHistory()
 
 const loggerMiddleware = createLoggerMiddleware()
@@ -45,7 +30,7 @@ const epicMiddleware = createEpicMiddleware(combineEpics(
 const routerMiddleware = createRouterMiddleware(history)
 
 export const store = createStore(
-    withBatchActions(combineReducers({
+    combineReducers({
         entities,
         ui: combineReducers({
             products: combineReducers({
@@ -58,7 +43,7 @@ export const store = createStore(
         modal,
         router,
         form    
-    })),
+    }),
     composeWithDevTools(
         applyMiddleware(
             loggerMiddleware,
