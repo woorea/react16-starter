@@ -38,7 +38,7 @@ export class ProductShow extends React.Component {
                         <h1 style={{flex: '1 1 0'}}>
                             <i className="fa fa-tag"></i>
                             &nbsp;
-                            <span>Show Product</span>
+                            <span>{this.props.product.name}</span>
                         </h1>
                     </div>
                     <ViewEdit
