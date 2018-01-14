@@ -1,14 +1,12 @@
 import React from 'react'
 
-import { Form , Input } from 'antd'
+import { Form , DatePicker } from 'antd'
 
 export default (props) => {
-
     const { id, label, input: { value, onChange } } = props
     return (
         <Form.Item id={id} label={label}>
-            <Input.TextArea value={value} onChange={(e) => onChange(e)} />
+            <DatePicker value={value} onChange={(e) => onChange(e)} />
         </Form.Item>
     )
-
 }

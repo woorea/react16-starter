@@ -17,7 +17,7 @@ export class ProductCreate extends React.Component {
 
     render() {
         return (
-            <div className="container-fluid">
+            <React.Fragment>
                 <div style={{display:'flex'}}>
                     <h1 style={{flex: '1 1 0'}}>
                         <i className="fa fa-tag"></i>
@@ -30,11 +30,12 @@ export class ProductCreate extends React.Component {
                     onSubmit={(values) => this.handleSubmit(values)} 
                     onCancel={() => this.handleCancel()}
                 />
-            </div>
+            </React.Fragment>
         )
     }
 
     handleSubmit(values) {
+        console.log(values)
         this.props.actions.productSave(values)
     }
 

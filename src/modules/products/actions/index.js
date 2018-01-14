@@ -1,8 +1,9 @@
 import * as constants from '../constants'
 
-export const productList = () => {
+export const productList = (payload) => {
     return {
-        type: constants.PRODUCT_LIST
+        type: constants.PRODUCT_LIST,
+        payload
     }
 }
 
@@ -13,21 +14,38 @@ export const productListSuccess = (payload) => {
     }
 }
 
-export const productSave = () => {
+export const productListError = (payload) => {
     return {
-        type: constants.PRODUCT_SAVE
+        type: constants.PRODUCT_LIST_ERROR,
+        payload
     }
 }
 
-export const productSaveSuccess = () => {
+export const productSave = (payload) => {
     return {
-        type: constants.PRODUCT_SAVE_SUCCESS
+        type: constants.PRODUCT_SAVE,
+        payload
     }
 }
 
-export const productShow = () => {
+export const productSaveSuccess = (payload) => {
     return {
-        type: constants.PRODUCT_SHOW
+        type: constants.PRODUCT_SAVE_SUCCESS,
+        payload
+    }
+}
+
+export const productSaveError = (payload) => {
+    return {
+        type: constants.PRODUCT_SAVE_ERROR,
+        payload
+    }
+}
+
+export const productShow = (payload) => {
+    return {
+        type: constants.PRODUCT_SHOW,
+        payload
     }
 }
 
@@ -38,38 +56,72 @@ export const productShowSuccess = (payload) => {
     }
 }
 
-export const productEdit = () => {
+export const productShowError = (payload) => {
     return {
-        type: constants.PRODUCT_EDIT
+        type: constants.PRODUCT_SHOW_ERROR,
+        payload
     }
 }
 
-export const productEditSuccess = () => {
+export const productEdit = (payload) => {
     return {
-        type: constants.PRODUCT_EDIT_SUCCESS
+        type: constants.PRODUCT_EDIT,
+        payload
     }
 }
 
-export const productUpdate = () => {
+export const productEditSuccess = (payload) => {
     return {
-        type: constants.PRODUCT_UPDATE
+        type: constants.PRODUCT_EDIT_SUCCESS,
+        payload
     }
 }
 
-export const productUpdateSuccess = () => {
+export const productEditError = (payload) => {
     return {
-        type: constants.PRODUCT_UPDATE_SUCCESS
+        type: constants.PRODUCT_EDIT_ERROR,
+        payload
     }
 }
 
-export const productDelete = () => {
+export const productUpdate = (payload) => {
     return {
-        type: constants.PRODUCT_DELETE
+        type: constants.PRODUCT_UPDATE,
+        payload
     }
 }
 
-export const productDeleteSuccess = () => {
+export const productUpdateSuccess = (payload) => {
     return {
-        type: constants.PRODUCT_DELETE_SUCCESS
+        type: constants.PRODUCT_UPDATE_SUCCESS,
+        payload
+    }
+}
+
+export const productUpdateError = (payload) => {
+    return {
+        type: constants.PRODUCT_UPDATE_ERROR,
+        payload
+    }
+}
+
+export const productDelete = (payload) => {
+    return {
+        type: constants.PRODUCT_DELETE,
+        payload
+    }
+}
+
+export const productDeleteSuccess = (payload) => {
+    return {
+        type: constants.PRODUCT_DELETE_SUCCESS,
+        payload
+    }
+}
+
+export const productDeleteError = (payload) => {
+    return {
+        type: constants.PRODUCT_DELETE_ERROR,
+        payload
     }
 }

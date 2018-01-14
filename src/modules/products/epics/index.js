@@ -7,15 +7,15 @@ import { mergeEntities } from 'root/actions'
 import { normalize } from 'normalizr'
 import { productSchema } from 'root/schema'
 
+import { Observable } from 'rxjs/Observable'
+import { ajax } from 'rxjs/observable/dom/ajax'
+
 export default [
     action$ => action$.ofType(constants.PRODUCT_LIST)
-        .delay(1000)
-        .mergeMap(({payload}) => {
+        .switchMap(({payload}) => ajax.getJSON('http://localhost:4000/api/products'))
+        .mergeMap(json => {
             const fake = {
-                content: [
-                    { code: 'product.1', name: 'product.1'},
-                    { code: 'product.2', name: 'product.2'}
-                ],
+                content: json,
                 offset: 0,
                 max: 10,
                 total: 2
@@ -28,23 +28,25 @@ export default [
                     result
                 })
             ]
-        }),
+        })
+        .catch((e) => Observable.of(actions.productListError(e))),
     action$ => action$.ofType(constants.PRODUCT_SAVE)
-        .delay(1000)
-        .mapTo(actions.productSaveSuccess()),
+        .switchMap(({payload}) => ajax.post('http://localhost:4000/api/products', payload))
+        .mapTo(actions.productSaveSuccess())
+        .catch((e) => Observable.of(actions.productSaveError(e))),
     action$ => action$.ofType(constants.PRODUCT_SAVE_SUCCESS)
         .mapTo(push('/products')),
     action$ => action$.ofType(constants.PRODUCT_SHOW)
-        .delay(1000)
-        .mergeMap(() => {
+        .switchMap(({payload}) => ajax.getJSON(`http://localhost:4000/api/products/${payload.code}`))
+        .mergeMap((json) => {
 
             const fake = {
                 entities: {
                     products: {
-                        'product.1': { code: 'product.1', name: 'product.1'}
+                        [json.code]: json
                     }
                 },
-                result: 'product.1'
+                result: json.code
             }
 
             const { entities, result } = fake
@@ -57,13 +59,15 @@ export default [
             ]
         }),
     action$ => action$.ofType(constants.PRODUCT_UPDATE)
-        .delay(1000)
-        .mapTo(actions.productUpdateSuccess()),
+        .switchMap(({payload}) => ajax.put(`http://localhost:4000/api/products/${payload.code}`, payload))
+        .mapTo(actions.productUpdateSuccess())
+        .catch((e) => Observable.of(actions.productUpdateError(e))),
     action$ => action$.ofType(constants.PRODUCT_UPDATE_SUCCESS)
         .mapTo(push('/products')),
     action$ => action$.ofType(constants.PRODUCT_DELETE)
-        .delay(1000)
-        .mapTo(actions.productDeleteSuccess()),
+        .switchMap(({payload}) => ajax.delete(`http://localhost:4000/api/products/${payload.code}`))
+        .mapTo(actions.productDeleteSuccess())
+        .catch((e) => Observable.of(actions.productDeleteError(e))),
     action$ => action$.ofType(constants.PRODUCT_DELETE_SUCCESS)
         .mergeMap(() => {
             return [

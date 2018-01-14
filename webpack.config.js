@@ -1,6 +1,8 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+const JsonServer = require('json-server')
+
 module.exports = {
     context: __dirname,
     devtool: 'cheap-module-eval-source-map',
@@ -26,7 +28,7 @@ module.exports = {
         },
         {
           test: /\.(scss|css)$/,
-          use: ['css-loader','sass-loader']
+          use: ['style-loader', 'css-loader', 'sass-loader']
         },
         {
           test: /\.(eot|svg|png|ttf|woff|woff2)$/,
@@ -47,6 +49,11 @@ module.exports = {
     devServer: {
       historyApiFallback: {
         disableDotRule: true
+      },
+      setup: (app) => {
+        const router = JsonServer.router('db.json', { foreignKeySuffix: 'Code'})
+        router.db._.id = "code"
+        app.use('/api', router)
       }
     }
   }

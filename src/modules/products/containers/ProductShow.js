@@ -6,10 +6,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
 
-import { Link } from 'react-router-dom'
-
-import { Loading } from 'components/Loading'
-import { Button } from 'components/Button'
+import { Button, Spin } from 'antd'
+import ViewEdit from 'components/ViewEdit'
 import ProductEditForm from '../components/ProductEditForm'
 
 const productCodeSelector = state => state.ui.products.show.product
@@ -23,7 +21,7 @@ const productSelector = createSelector(
 export class ProductShow extends React.Component {
 
     componentDidMount() {
-        this.props.actions.productShow(this.props.match.params.product)
+        this.props.actions.productShow({code : this.props.match.params.product})
     }
 
     componentWillUnmount() {
@@ -32,7 +30,7 @@ export class ProductShow extends React.Component {
 
     render() {
         if(this.props.loading) {
-            return <Loading />
+            return <Spin />
         } else {
             return (
                 <div className="container-fluid">
@@ -43,27 +41,22 @@ export class ProductShow extends React.Component {
                             <span>Show Product</span>
                         </h1>
                     </div>
-                    {this.renderViewEdit()}
-                    <Link to="/products">Products</Link>
-                </div>
-            )
-        }
-    }
-
-    renderViewEdit() {
-        if(this.props.editing) {
-            return (
-                <ProductEditForm
-                    form="product-edit-form"
-                    initialValues={this.props.product}
-                    onSubmit={(values) => this.handleUpdateProduct(values)} 
-                    onCancel={() => this.handleCancel()}
-                />
-            )
-        } else {
-            return (
-                <div>
-                    <Button icon="pencil" label="Edit" onClick={()=>this.handleEditProduct()} />
+                    <ViewEdit
+                        editing={this.props.editing}
+                        viewer={() => (
+                            <div>
+                                <Button icon="edit" onClick={()=>this.handleEditProduct()}>Edit</Button>
+                            </div>
+                        )}
+                        editor={() => (
+                            <ProductEditForm
+                                form="product-edit-form"
+                                initialValues={this.props.product}
+                                onSubmit={(values) => this.handleUpdateProduct(values)} 
+                                onCancel={() => this.handleCancel()}
+                            />
+                        )}
+                    />
                 </div>
             )
         }
