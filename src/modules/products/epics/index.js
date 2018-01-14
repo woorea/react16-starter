@@ -23,8 +23,8 @@ export default [
             const { content, ...pagination} = fake
             const { entities, result } = normalize(content, [productSchema])
             return [
-                mergeEntities({ entities }),
                 actions.productListSuccess({
+                    entities,
                     result
                 })
             ]
@@ -52,8 +52,8 @@ export default [
             const { entities, result } = fake
 
             return [
-                mergeEntities({ entities }),
                 actions.productShowSuccess({
+                    entities,
                     result
                 })
             ]

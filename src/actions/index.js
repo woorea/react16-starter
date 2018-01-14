@@ -2,8 +2,6 @@ import { push } from 'react-router-redux'
 
 import { uiModalOpen, uiModalClose } from './modal'
 
-import { mergeEntities } from './entities'
-
 import * as constants from '../constants'
 
 const uiClear = () => {
@@ -12,10 +10,16 @@ const uiClear = () => {
     }
 }
 
+const uiToggleSidebar = () => {
+    return {
+        type: constants.UI_TOGGLE_SIDEBAR
+    }
+}
+
 export {
     push,
     uiClear,
+    uiToggleSidebar,
     uiModalOpen,
-    uiModalClose,
-    mergeEntities
+    uiModalClose
 }

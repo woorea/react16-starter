@@ -24,7 +24,7 @@ export class ProductList extends React.Component {
     }
 
     componentWillUnmount() {
-        //this.props.actions.uiClear()
+        this.props.actions.uiClear()
     }
 
     render() {
@@ -39,6 +39,16 @@ export class ProductList extends React.Component {
                 title: 'Name',
                 dataIndex: 'name',
                 key: 'name'
+            },
+            {
+                title: 'Start',
+                dataIndex: 'start',
+                key: 'start'
+            },
+            {
+                title: 'End',
+                dataIndex: 'end',
+                key: 'end'
             },
             {
                 title: 'Actions',
@@ -71,7 +81,9 @@ export class ProductList extends React.Component {
                     visible={this.props.modal !== null}
                     onOk={(e) => this.handleOkModal()} 
                     onCancel={(e) => this.handleCancelModal()} 
-                />
+                >
+                    <span>Are you sure?</span>
+                </Modal>
             </div>
         )
     }

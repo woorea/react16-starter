@@ -11,9 +11,9 @@ import DatePicker from 'components/DatePicker'
 export default reduxForm({})(({onCancel: handleCancel, handleSubmit}) => {
     return (
         <Form onSubmit={handleSubmit}>
+            <Field id="product-code" label="Code" name="code" component={InputText} />
             <Field id="product-name" label="Name" name="name" component={InputText} />
             <Field id="product-description" label="Description" name="description" component={TextArea} />
-            <Field id="product-code" label="Code" name="code" component={InputText} />
             <Field id="product-start" label="Start Date" name="start" component={DatePicker} />
             <Field id="product-end" label="Start End" name="end" component={DatePicker} />
             <Form.Item>

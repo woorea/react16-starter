@@ -6,7 +6,7 @@ export default (props) => {
     const { id, label, input: { value, onChange } } = props
     return (
         <Form.Item id={id} label={label}>
-            <DatePicker value={value} onChange={(e) => onChange(e)} />
+            <DatePicker defaultValue={null} onChange={(e) => onChange(e)} />
         </Form.Item>
     )
 }
