@@ -1,6 +1,6 @@
-import { UI_CLEAR } from 'root/actions'
+import { UI_CLEAR } from 'root/constants'
 
-import * as actions from '../actions'
+import * as constants from '../constants'
 
 const initialState = {
     items: [],
@@ -15,13 +15,13 @@ export default (state = initialState, action) => {
         case UI_CLEAR: {
             return initialState
         }
-        case actions.PRODUCT_LIST: {
+        case constants.PRODUCT_LIST: {
             return {
                 ...state,
                 loading: true
             }
         }
-        case actions.PRODUCT_LIST_SUCCESS: {
+        case constants.PRODUCT_LIST_SUCCESS: {
             return {
                 ...state,
                 items: action.payload.result,

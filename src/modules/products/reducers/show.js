@@ -1,6 +1,6 @@
-import { UI_CLEAR } from 'root/actions'
+import { UI_CLEAR } from 'root/constants'
 
-import * as actions from '../actions'
+import * as constants from '../constants'
 
 const initialState = {
     loading: true,
@@ -10,13 +10,13 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case actions.PRODUCT_SHOW: {
+        case constants.PRODUCT_SHOW: {
             return {
                 ...state,
                 loading: true
             }
         }
-        case actions.PRODUCT_SHOW_SUCCESS: {
+        case constants.PRODUCT_SHOW_SUCCESS: {
             return {
                 ...state,
                 loading: false,

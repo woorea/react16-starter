@@ -1,11 +1,11 @@
-import * as actions from 'root/actions/modal'
+import * as constants from 'root/constants'
 
 export default (state = null, action) => {
     switch(action.type) {
-        case actions.UI_MODAL_OPEN: {
+        case constants.UI_MODAL_OPEN: {
             return action.payload
         }
-        case actions.UI_MODAL_CLOSE: {
+        case constants.UI_MODAL_CLOSE: {
             return null
         }
         default:

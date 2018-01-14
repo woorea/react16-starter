@@ -2,13 +2,13 @@ import { push } from 'react-router-redux'
 
 import { uiModalOpen, uiModalClose } from './modal'
 
-export const LOCATION_CHANGE = "@@router/LOCATION_CHANGE"
+import { mergeEntities } from './entities'
 
-export const UI_CLEAR = "UI/CLEAR"
+import * as constants from '../constants'
 
 const uiClear = () => {
     return {
-        type: UI_CLEAR
+        type: constants.UI_CLEAR
     }
 }
 
@@ -16,5 +16,6 @@ export {
     push,
     uiClear,
     uiModalOpen,
-    uiModalClose
+    uiModalClose,
+    mergeEntities
 }

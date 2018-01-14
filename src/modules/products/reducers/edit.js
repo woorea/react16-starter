@@ -1,18 +1,18 @@
-import { UI_CLEAR } from 'root/actions'
+import { UI_CLEAR } from 'root/constants'
 
-import * as actions from '../actions'
+import * as constants from '../constants'
 
 export default (state = {}, action) => {
     switch(action.type) {
         case UI_CLEAR: {
             return {}
         }
-        case actions.PRODUCT_SHOW: {
+        case constants.PRODUCT_SHOW: {
             return {
                 loading: true
             }
         }
-        case actions.PRODUCT_SHOW_SUCCESS: {
+        case constants.PRODUCT_SHOW_SUCCESS: {
             return {
                 view: 'products/show',
                 loading: false,

@@ -1,10 +1,5 @@
 import React from 'react'
 
-import * as actions from '../actions'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-
-import { Link } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 
 import { Button } from 'components/Button'

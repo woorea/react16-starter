@@ -1,9 +1,8 @@
-import * as actions from '../modules/products/actions'
+import * as constants from '../constants'
 
 export default (state = {}, action) => {
     switch(action.type) {
-        case actions.PRODUCT_LIST_SUCCESS:
-        case actions.PRODUCT_SHOW_SUCCESS: {
+        case constants.MERGE_ENTITIES: {
             return {
                 ...state,
                 ...action.payload.entities

@@ -1,14 +1,16 @@
 import { push, uiModalClose } from 'root/actions'
 
+import * as constants from '../constants'
 import * as actions from '../actions'
+import { mergeEntities } from 'root/actions'
 
 import { normalize } from 'normalizr'
 import { productSchema } from 'root/schema'
 
 export default [
-    action$ => action$.ofType(actions.PRODUCT_LIST)
+    action$ => action$.ofType(constants.PRODUCT_LIST)
         .delay(1000)
-        .map(({payload}) => {
+        .mergeMap(({payload}) => {
             const fake = {
                 content: [
                     { code: 'product.1', name: 'product.1'},
@@ -20,28 +22,49 @@ export default [
             }
             const { content, ...pagination} = fake
             const { entities, result } = normalize(content, [productSchema])
-            return actions.productListSuccess({
-                entities,
-                result
-            })
+            return [
+                mergeEntities({ entities }),
+                actions.productListSuccess({
+                    result
+                })
+            ]
         }),
-    action$ => action$.ofType(actions.PRODUCT_SAVE)
+    action$ => action$.ofType(constants.PRODUCT_SAVE)
         .delay(1000)
         .mapTo(actions.productSaveSuccess()),
-    action$ => action$.ofType(actions.PRODUCT_SAVE_SUCCESS)
+    action$ => action$.ofType(constants.PRODUCT_SAVE_SUCCESS)
         .mapTo(push('/products')),
-    action$ => action$.ofType(actions.PRODUCT_SHOW)
+    action$ => action$.ofType(constants.PRODUCT_SHOW)
         .delay(1000)
-        .mapTo(actions.productShowSuccess()),
-    action$ => action$.ofType(actions.PRODUCT_UPDATE)
+        .mergeMap(() => {
+
+            const fake = {
+                entities: {
+                    products: {
+                        'product.1': { code: 'product.1', name: 'product.1'}
+                    }
+                },
+                result: 'product.1'
+            }
+
+            const { entities, result } = fake
+
+            return [
+                mergeEntities({ entities }),
+                actions.productShowSuccess({
+                    result
+                })
+            ]
+        }),
+    action$ => action$.ofType(constants.PRODUCT_UPDATE)
         .delay(1000)
         .mapTo(actions.productUpdateSuccess()),
-    action$ => action$.ofType(actions.PRODUCT_UPDATE_SUCCESS)
+    action$ => action$.ofType(constants.PRODUCT_UPDATE_SUCCESS)
         .mapTo(push('/products')),
-    action$ => action$.ofType(actions.PRODUCT_DELETE)
+    action$ => action$.ofType(constants.PRODUCT_DELETE)
         .delay(1000)
         .mapTo(actions.productDeleteSuccess()),
-    action$ => action$.ofType(actions.PRODUCT_DELETE_SUCCESS)
+    action$ => action$.ofType(constants.PRODUCT_DELETE_SUCCESS)
         .mergeMap(() => {
             return [
                 uiModalClose(),

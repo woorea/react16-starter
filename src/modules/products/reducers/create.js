@@ -1,13 +1,13 @@
-import { UI_CLEAR } from 'root/actions'
+import { UI_CLEAR } from 'root/constants'
 
-import * as actions from '../actions'
+import * as constants from '../constants'
 
 export default (state = {}, action) => {
     switch(action.type) {
         case UI_CLEAR: {
             return {}
         }
-        case actions.PRODUCT_CREATE_SUCCESS: {
+        case constants.PRODUCT_CREATE_SUCCESS: {
             return state
         }
         default:
