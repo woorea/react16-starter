@@ -1,12 +1,11 @@
 import React from 'react'
 
-import { push, uiClear, uiModalOpen, uiModalClose } from 'root/actions'
+import { push, uiSetSection, uiClear, uiModalOpen, uiModalClose } from 'root/actions'
 import { productList, productDelete } from '../actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
 
-import { Loading } from 'components/Loading'
 import { Button, Table, Modal } from 'antd'
 
 const uiItemsSelector = state => state.ui.products.list.items
@@ -20,6 +19,7 @@ const productsSelector = createSelector(
 export class ProductList extends React.Component {
 
     componentDidMount() {
+        this.props.actions.uiSetSection({section : 'products'})
         this.props.actions.productList()
     }
 
@@ -125,7 +125,7 @@ export default connect(
 
         return {
             actions: bindActionCreators({
-                push, uiClear, uiModalOpen, uiModalClose,
+                push, uiSetSection, uiClear, uiModalOpen, uiModalClose,
                 productList, productDelete
             }, dispatch)
         }

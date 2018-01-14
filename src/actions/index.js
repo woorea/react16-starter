@@ -10,6 +10,13 @@ const uiClear = () => {
     }
 }
 
+const uiSetSection = (payload) => {
+    return {
+        type: constants.UI_SET_SECTION,
+        payload
+    }
+}
+
 const uiToggleSidebar = () => {
     return {
         type: constants.UI_TOGGLE_SIDEBAR
@@ -19,6 +26,7 @@ const uiToggleSidebar = () => {
 export {
     push,
     uiClear,
+    uiSetSection,
     uiToggleSidebar,
     uiModalOpen,
     uiModalClose

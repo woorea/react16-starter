@@ -14,9 +14,10 @@ import { routerReducer as router } from 'react-router-redux'
 
 import { reducer as form } from 'redux-form'
 
-import sidebarReducer from './reducers/sidebar'
+import applicationReducer from './reducers/application'
 
 import entities from './reducers/entities'
+
 import modal from './reducers/modal'
 
 import * as productReducers from 'root/modules/products/reducers'
@@ -34,8 +35,8 @@ const routerMiddleware = createRouterMiddleware(history)
 export const store = createStore(
     combineReducers({
         entities,
+        application: applicationReducer,
         ui: combineReducers({
-            sidebar: sidebarReducer,
             products: combineReducers({
                 list: productReducers.list,
                 create: productReducers.create,

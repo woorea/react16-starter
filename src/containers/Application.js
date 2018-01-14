@@ -6,8 +6,6 @@ import { Link } from 'react-router-dom'
 
 import { ConnectedRouter as Router } from 'react-router-redux'
 
-import { Welcome } from 'root/components/Welcome'
-
 import productRoutes from 'root/modules/products/routes'
 
 import { history } from 'root/objects'
@@ -18,6 +16,8 @@ const { Header, Sider, Content } = Layout
 import { uiToggleSidebar } from 'root/actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+
+import Dashboard from 'root/containers/Dashboard'
 
 export class Application extends React.Component {
 
@@ -35,18 +35,23 @@ export class Application extends React.Component {
                     collapsed={!this.props.isSidebarOpen}
                     >
                         <div className="logo" />
-                        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                            <Menu.Item key="1">
-                            <Link to="/">
-                                <Icon type="dashboard" />
-                                <span>Dashboard</span>
-                            </Link>
+                        <Menu
+                            theme="dark"
+                            mode="inline"
+                            selectedKeys={this.props.sidebarSelected}
+                            defaultSelectedKeys={['dashboard']}
+                        >
+                            <Menu.Item key="dashboard">
+                                <Link to="/">
+                                    <Icon type="dashboard" />
+                                    <span>Dashboard</span>
+                                </Link>
                             </Menu.Item>
-                            <Menu.Item key="2">
-                            <Link to="/products">
-                                <Icon type="tags" />
-                                <span>Products</span>
-                            </Link>
+                            <Menu.Item key="products">
+                                <Link to="/products">
+                                    <Icon type="tags" />
+                                    <span>Products</span>
+                                </Link>
                             </Menu.Item>
                         </Menu>
                     </Sider>
@@ -60,7 +65,7 @@ export class Application extends React.Component {
                     </Header>
                     <Content style={{ margin: '24px 16px', padding: 24, background: '#fff' }}>
                         <Switch>
-                            <Route exact path="/" component={ Welcome } />
+                            <Route exact path="/" component={ Dashboard } />
                             {productRoutes}
                         </Switch>
                     </Content>
@@ -76,7 +81,8 @@ export default connect(
     (state) => {
 
         return {
-            isSidebarOpen: state.ui.sidebar
+            sidebarSelected: [state.application.section],
+            isSidebarOpen: state.application.isSidebarOpen
         }
 
     },
