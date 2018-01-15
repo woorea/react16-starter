@@ -65,7 +65,7 @@ export class ProductList extends React.Component {
         ]
         
         return (
-            <div className="container-fluid"> 
+            <React.Fragment> 
                 <div style={{display:'flex'}}>
                     <h1 style={{flex: '1 1 0'}}>
                         <i className="fa fa-tags"></i>
@@ -84,7 +84,7 @@ export class ProductList extends React.Component {
                 >
                     <span>Are you sure?</span>
                 </Modal>
-            </div>
+            </React.Fragment>
         )
     }
 

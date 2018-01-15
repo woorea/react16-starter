@@ -35,7 +35,6 @@ export class ProductCreate extends React.Component {
     }
 
     handleSubmit(values) {
-        console.log(values)
         this.props.actions.productSave(values)
     }
 

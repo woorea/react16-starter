@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { push } from 'root/actions'
-import { productShow, productUpdate } from '../actions'
+import { productShow, productUpdate, planSave, planUpdate, planDelete, chargeSave, chargeUpdate, chargeDelete } from '../actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
@@ -9,6 +9,7 @@ import { createSelector } from 'reselect'
 import { Button, Spin } from 'antd'
 import ViewEdit from 'components/ViewEdit'
 import ProductEditForm from '../components/ProductEditForm'
+import { PlanList } from '../components/PlanList'
 
 const productCodeSelector = state => state.ui.products.show.product
 const entitiesProductsSelector = state => state.entities.products
@@ -29,6 +30,7 @@ export class ProductShow extends React.Component {
     }
 
     render() {
+
         if(this.props.loading) {
             return <Spin />
         } else {
@@ -46,6 +48,15 @@ export class ProductShow extends React.Component {
                         viewer={() => (
                             <div>
                                 <Button icon="edit" onClick={()=>this.handleEditProduct()}>Edit</Button>
+                                <PlanList
+                                    value={this.props.plans}
+                                    onPlanSave={(plan) => this.handlePlanSave(plan)}
+                                    onPlanUpdate={(plan) => this.handlePlanUpdate(plan)}
+                                    onPlanDelete={(plan) => this.handlePlanDelete(plan)}
+                                    onChargeSave={(charge) => this.handleChargeSave(charge)}
+                                    onChargeUpdate={(charge) => this.handleChargeUpdate(charge)}
+                                    onChargeDelete={(charge) => this.handleChargeDelete(charge)}
+                                />
                             </div>
                         )}
                         editor={() => (
@@ -70,8 +81,32 @@ export class ProductShow extends React.Component {
         this.props.actions.productUpdate(values)
     }
 
-    handleCancel(values) {
+    handleCancel() {
         this.props.actions.push(`/products/${this.props.product.code}`)
+    }
+
+    handlePlanSave(plan) {
+        this.props.actions.planSave(plan)
+    }
+
+    handlePlanUpdate(plan) {
+        this.props.actions.planUpdate(plan)
+    }
+
+    handlePlanDelete(plan) {
+        this.props.actions.planDelete(plan)
+    }
+
+    handleChargeSave(charge) {
+        this.props.actions.chargeSave(charge)
+    }
+
+    handleChargeUpdate(charge) {
+        this.props.actions.chargeUpdate(charge)
+    }
+
+    handleChargeDelete(charge) {
+        this.props.actions.chargeDelete(charge)
     }
 
 }
@@ -86,7 +121,22 @@ export default connect(
             return {
                 ...state.ui.products.show,
                 product: productSelector(state),
-                editing: /\/products\/.*\/edit/.test(state.router.location.pathname)
+                editing: /\/products\/.*\/edit/.test(state.router.location.pathname),
+                plans: [
+                    {
+                        code: 'plan.1',
+                        name: 'plan.1',
+                        charges: [
+                            {
+                                code: 'charge.1',
+                                name: 'charge.1',
+                                tiers: [
+                                    { code: 'tier.1', from: 0, to: 10, amount: 10, perTier: false}
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         }
         
@@ -95,7 +145,9 @@ export default connect(
         return {
             actions: bindActionCreators({
                 push,
-                productShow, productUpdate
+                productShow, productUpdate,
+                planSave, planUpdate, planDelete,
+                chargeSave, chargeUpdate, chargeDelete
             }, dispatch)
         }
     }
